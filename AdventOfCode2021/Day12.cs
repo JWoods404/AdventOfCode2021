@@ -50,7 +50,7 @@ namespace AdventOfCode2021
             }
 
             var start = caves.FirstOrDefault(c => c.Name == "start");
-            string path = "start->";
+            string path = "start";
             foreach (var connection in start.Connections)
             {
                 var nextCave = caves.First(c => c.Name == connection);
@@ -58,6 +58,49 @@ namespace AdventOfCode2021
             }
 
             return paths.Count;
+        }
+
+        public int Part2()
+        {
+            paths.Clear();
+            var start = caves.FirstOrDefault(c => c.Name == "start");
+            string path = "start";
+            bool isRepeatUsedUp = false;
+            foreach (var connection in start.Connections)
+            {
+                var nextCave = caves.First(c => c.Name == connection);
+                GoNextStep(nextCave, path, isRepeatUsedUp);
+            }
+
+            return paths.Count;
+        }
+
+        private string GoNextStep(Cave cave, string path, bool isRepeatUsedUp)
+        {
+            if (cave is SmallCave)
+            {
+                if (cave.Name == "end")
+                {
+                    path += "->" + cave.Name;
+                    paths.Add(path);
+                    return path;
+                }
+                if ((path.Contains(cave.Name) && isRepeatUsedUp) || cave.Name == "start")
+                {
+                    return null;
+                }
+                if ((path.Contains(cave.Name) && !isRepeatUsedUp) && cave.Name != "start" && cave.Name != "end")
+                {
+                    isRepeatUsedUp = true;
+                }
+            }
+            path += "->" + cave.Name;
+            foreach (var connection in cave.Connections)
+            {
+                var nextCave = caves.FirstOrDefault(c => c.Name == connection);
+                GoNextStep(nextCave, path, isRepeatUsedUp);
+            }
+            return path;
         }
 
         private string GoNextStep(Cave cave, string path)
