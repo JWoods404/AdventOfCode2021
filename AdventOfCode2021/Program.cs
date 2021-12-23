@@ -6,10 +6,10 @@ namespace AdventOfCode2021
     {
         static void Main()
         {
-            Day11 day11 = new Day11();
+            Day12 day12 = new Day12();
 
-            Console.WriteLine(day11.Part1());
-            Console.WriteLine(day11.Part2());
+            Console.WriteLine(day12.Part1());
+            //Console.WriteLine(day12.Part2());
 
             Console.ReadLine();
         }
